@@ -21,9 +21,15 @@ body {
   border-bottom: 1px solid goldenrod;
 }
 .header-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-size: 27px;
   text-align: center;
   margin-bottom: 25px;
+}
+.header-title i {
+  margin-right: 10px;
 }
 .search input {
   padding: 10px 15px;
@@ -38,7 +44,20 @@ body {
 
 .main {
   display: flex;
+  min-height: 80%;
   padding: 20px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  text-align: center;
+  font-size: 32px;
+}
+.info p {
+  padding-top: 20px;
 }
 .recipes {
   margin: 0 auto;
@@ -134,6 +153,23 @@ body {
   .main {
     padding: 30px 50px;
   }
+  .info {
+    display: flex;
+    flex-direction: row;
+    /* align-items: space-evenly; */
+    justify-content: center;
+    width: 100%;
+    order: 1;
+    text-align: center;
+    font-size: 32px;
+  }
+  .info p {
+    padding: 0;
+    padding-right: 20px;
+  }
+  .info i {
+    order: 2;
+  }
   .recipes {
     display: flex;
     justify-content: space-around;
@@ -141,13 +177,11 @@ body {
     width: 100%;
     flex-direction: row;
   }
-  .content {
-    padding: 0 20px;
-    padding-top: 20px;
-  }
   .recipe {
     width: min-content;
     margin: 0px;
+    padding: 0 20px;
+    padding-top: 20px;
     cursor: pointer;
     border-bottom: none;
   }

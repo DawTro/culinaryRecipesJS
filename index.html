@@ -18,36 +18,41 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <section class="header">
-      <div class="header-title">
-        <i class="fa-solid fa-burger fa-lg"></i>
-        <h1>Yummy!</h1>
-      </div>
-      <div class="search">
-        <input
-          class="searchInput"
-          type="text"
-          placeholder="Search recipe here"
-        />
-      </div>
-    </section>
-    <section class="main">
-      <div class="recipes">
-        <div class="info">
-          <i class="fa-solid fa-arrow-up-right-dots"></i>
-          <p>If you want to find recipe use Search</p>
+    <div class="page-container">
+      <div class="wrap">
+        <div class="header">
+          <div class="header-title">
+            <i class="fa-solid fa-burger fa-lg"></i>
+            <h1>Yummy!</h1>
+          </div>
+          <div class="search">
+            <input
+              class="searchInput"
+              type="text"
+              placeholder="Search recipe here"
+            />
+          </div>
+        </div>
+        <div class="main">
+          <div class="recipes">
+            <div class="info">
+              <i class="dots fa-solid fa-arrow-up-right-dots"></i>
+              <i class="arrow fa-solid fa-arrow-up"></i>
+              <p>If you want to find recipe use Search</p>
+            </div>
+          </div>
+          <div class="recipe-content">
+            <div class="container-recipe-content"></div>
+          </div>
         </div>
       </div>
-      <div class="recipe-content">
-        <div class="container-recipe-content"></div>
+      <div class="footer">
+        <div class="copy-rights">
+          <p>&copy; Yummy</p>
+          <p>Wszystkie prawa zastrzeżone</p>
+        </div>
       </div>
-    </section>
-    <section class="footer">
-      <div class="copy-rights">
-        <p>&copy; Yummy</p>
-        <p>Wszystkie prawa zastrzeżone</p>
-      </div>
-    </section>
+    </div>
 
     <script src="index.js"></script>
   </body>

@@ -57,8 +57,19 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("show recipe: ", id);
     console.log(recipesList[0]);
     let recipeDetail = recipesList[0].find((recipe) => recipe.idMeal === id);
-    console.log(recipeDetail);
+    console.log(Object.entries(recipeDetail));
+    // );
 
+    // ingredientsList = Object.entries(recipeDetail).filter((n) =>
+    //   n.includes("Ingredient")
+    // );
+    // measuresList = Object.entries(recipeDetail).filter((n) =>
+    //   n.includes("Measure")
+    // );
+
+    // console.log(ingredientsList);
+
+    list.style.display = "none";
     recipeContent.style.display = "flex";
 
     showPhoto(recipeDetail.strMealThumb);
@@ -109,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let closeDetail = () => {
     recipeContent.style.display = "none";
+    list.style.display = "flex";
     detail.innerHTML = "";
   };
 

@@ -6,8 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const detail = document.querySelector(".container-recipe-content");
 
   let recipesList = [];
-  let ingredientsList = [];
-  let measuresList = [];
 
   let mealList = (mealName) => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
@@ -21,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
           list.innerHTML = "";
           recipesList.push(recipes);
         }
-        // console.log(recipesList);
         input.value = "";
 
         info.remove();
@@ -54,26 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let showDetail = (id) => {
-    console.log("show recipe: ", id);
-    console.log(recipesList[0]);
+    console.log("show recipe id: ", id);
     let recipeDetail = recipesList[0].find((recipe) => recipe.idMeal === id);
-    console.log(Object.entries(recipeDetail));
-    // );
-
-    // ingredientsList = Object.entries(recipeDetail).filter((n) =>
-    //   n.includes("Ingredient")
-    // );
-    // measuresList = Object.entries(recipeDetail).filter((n) =>
-    //   n.includes("Measure")
-    // );
-
-    // console.log(ingredientsList);
+    console.log(recipeDetail);
 
     list.style.display = "none";
     recipeContent.style.display = "flex";
 
     showPhoto(recipeDetail.strMealThumb);
     showTitle(recipeDetail.strMeal);
+    showIngredients(recipeDetail);
     showInstructions(recipeDetail.strInstructions);
     addBtn();
   };
@@ -81,10 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let showPhoto = (photo) => {
     let picture = document.createElement("div");
     picture.classList.add("recipe-img");
-    let image = document.createElement("img");
-    image.src = photo;
+    picture.style.backgroundImage = `url(${photo})`;
 
-    picture.appendChild(image);
     detail.appendChild(picture);
   };
 
@@ -98,12 +83,71 @@ document.addEventListener("DOMContentLoaded", () => {
     detail.appendChild(name);
   };
 
+  let showIngredients = (detail) => {
+    let ingredients = Object.keys(detail).filter((el) =>
+      el.includes("Ingredient")
+    );
+    let filterIngredients = Object.keys(detail)
+      .filter((key) => ingredients.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = detail[key];
+        return obj;
+      }, {});
+    let nameOfIngredient = Object.values(filterIngredients).filter(
+      (n) => n !== ""
+    );
+
+    let measures = Object.keys(detail).filter((el) => el.includes("Measure"));
+
+    let filterMeasure = Object.keys(detail)
+      .filter((key) => measures.includes(key))
+      .reduce((obj, key) => {
+        obj[key] = detail[key];
+        return obj;
+      }, {});
+    let quantity = Object.values(filterMeasure).filter(
+      (q) => q !== "" && q !== " "
+    );
+
+    let quantityOfIngredients = quantity.map((value, i) => {
+      return value + " " + nameOfIngredient[i];
+    });
+    console.log(quantityOfIngredients);
+
+    addIngredients(quantityOfIngredients);
+  };
+
+  let addIngredients = (ingr) => {
+    let ingredientsDiv = document.createElement("div");
+    ingredientsDiv.classList.add("recipe-ingredient");
+    let ingredientTitle = document.createElement("h3");
+    ingredientTitle.classList.add("ingredient-title");
+    ingredientTitle.innerHTML = "Ingredients:";
+    let ingredientsList = document.createElement("ul");
+    ingredientsList.classList.add("ingredient-list");
+
+    ingr.map((ing) => {
+      let ingredient = document.createElement("li");
+
+      ingredient.innerHTML = ing;
+      ingredientsList.appendChild(ingredient);
+    });
+
+    ingredientsDiv.appendChild(ingredientTitle);
+    ingredientsDiv.appendChild(ingredientsList);
+    detail.appendChild(ingredientsDiv);
+  };
+
   let showInstructions = (instruction) => {
     let content = document.createElement("div");
     content.classList.add("recipe-instruction");
+    let instructionTitle = document.createElement("h3");
+    instructionTitle.classList.add("instruction-title");
+    instructionTitle.innerHTML = "Preparation:";
     let recipeTxt = document.createElement("p");
     recipeTxt.innerHTML = instruction;
 
+    content.appendChild(instructionTitle);
     content.appendChild(recipeTxt);
     detail.appendChild(content);
   };

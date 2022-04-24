@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let recipesList = [];
 
+  let contentTxt = document.createElement("div");
+  contentTxt.classList.add("recipe-detail");
+
   let mealList = (mealName) => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
       .then((res) => res.json())
@@ -38,13 +41,18 @@ document.addEventListener("DOMContentLoaded", () => {
       img.alt = "meal foto";
       let title = document.createElement("div");
       title.classList.add("recipe-title");
+      let forTitle = document.createElement("div");
+      forTitle.classList.add("title");
       let h3 = document.createElement("h3");
       h3.innerHTML = `${recipe.strMeal}`;
+      let favIcon = document.createElement("i");
+      favIcon.classList.add("bi", "bi-heart", "fav-btn");
 
       newRecipe.appendChild(image);
       image.appendChild(img);
       newRecipe.appendChild(title);
-      title.appendChild(h3);
+      forTitle.appendChild(h3);
+      title.append(forTitle, favIcon);
       list.appendChild(newRecipe);
       newRecipe.addEventListener("click", (e) => showDetail(recipe.idMeal));
     });
@@ -58,10 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
     list.style.display = "none";
     recipeContent.style.display = "flex";
 
-    showPhoto(recipeDetail.strMealThumb);
     showTitle(recipeDetail.strMeal);
-    showIngredients(recipeDetail);
-    showInstructions(recipeDetail.strInstructions);
+    showPhoto(recipeDetail.strMealThumb);
+    showContent(recipeDetail);
     addBtn();
   };
 
@@ -81,6 +88,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     name.appendChild(h2);
     detail.appendChild(name);
+  };
+
+  let showContent = (recipeDetail) => {
+    contentTxt.innerHTML = "";
+    detail.appendChild(contentTxt);
+
+    showIngredients(recipeDetail);
+    showInstructions(recipeDetail.strInstructions);
   };
 
   let showIngredients = (detail) => {
@@ -106,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return obj;
       }, {});
     let quantity = Object.values(filterMeasure).filter(
-      (q) => q !== "" && q !== " "
+      (q) => q !== "" && q !== " " && q !== null
     );
 
     let quantityOfIngredients = quantity.map((value, i) => {
@@ -135,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ingredientsDiv.appendChild(ingredientTitle);
     ingredientsDiv.appendChild(ingredientsList);
-    detail.appendChild(ingredientsDiv);
+    contentTxt.appendChild(ingredientsDiv);
   };
 
   let showInstructions = (instruction) => {
@@ -145,11 +160,12 @@ document.addEventListener("DOMContentLoaded", () => {
     instructionTitle.classList.add("instruction-title");
     instructionTitle.innerHTML = "Preparation:";
     let recipeTxt = document.createElement("p");
+    recipeTxt.classList.add("instruction-detail");
     recipeTxt.innerHTML = instruction;
 
     content.appendChild(instructionTitle);
     content.appendChild(recipeTxt);
-    detail.appendChild(content);
+    contentTxt.appendChild(content);
   };
 
   let addBtn = () => {

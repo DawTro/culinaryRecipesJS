@@ -34,12 +34,15 @@
             <h1>Yummy!</h1>
           </div>
           <div class="favourites">
-            <a href="#">
-              <i class="bi bi-heart fav-btn"></i>
-            </a>
+            <div class="dropdown">
+              <!-- <a href="#"> -->
+              <i class="bi bi-heart fav-btn-header"></i>
+              <!-- </a> -->
+              <div class="dropdown-menu">Tu będzie lista ulubionych</div>
+            </div>
           </div>
           <div class="search">
-            <i class="bi bi-search"></i>
+            <i class="bi bi-search search-btn"></i>
             <input
               class="searchInput"
               type="text"
@@ -52,7 +55,10 @@
             <div class="info">
               <i class="dots fa-solid fa-arrow-up-right-dots"></i>
               <i class="arrow fa-solid fa-arrow-up"></i>
-              <p>If you want to find recipe use Search</p>
+              <!-- <p>If you want to find recipe use Search</p> -->
+            </div>
+            <div class="not-found">
+              <p>Recipe not found, try again</p>
             </div>
           </div>
           <div class="recipe-content">

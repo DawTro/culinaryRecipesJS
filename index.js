@@ -2,10 +2,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const input = document.querySelector(".searchInput");
   const list = document.querySelector(".recipes");
   const info = document.querySelector(".info");
+  const notFound = document.querySelector(".not-found");
   const recipeContent = document.querySelector(".recipe-content");
   const detail = document.querySelector(".container-recipe-content");
+  const favorites = document.querySelector(".fav-btn-header");
 
   let recipesList = [];
+  let favoritesList = [];
 
   let contentTxt = document.createElement("div");
   contentTxt.classList.add("recipe-detail");
@@ -14,18 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
       .then((res) => res.json())
       .then((data) => {
-        let recipes = data.meals;
-        if (recipesList === []) {
-          recipesList.push(recipes);
-        } else {
-          recipesList.shift();
-          list.innerHTML = "";
-          recipesList.push(recipes);
-        }
-        input.value = "";
+        if (data.meals === null) {
+          info.style.display = "none";
+          notFound.style.display = "flex";
+          input.value = "";
+        } else if (data) {
+          let recipes = data.meals;
+          if (recipesList === []) {
+            recipesList.push(recipes);
+          } else {
+            recipesList.shift();
+            list.innerHTML = "";
+            recipesList.push(recipes);
+          }
+          input.value = "";
 
-        info.remove();
-        showList();
+          info.remove();
+          showList();
+        }
       });
   };
 
@@ -48,14 +57,23 @@ document.addEventListener("DOMContentLoaded", () => {
       let favIcon = document.createElement("i");
       favIcon.classList.add("bi", "bi-heart", "fav-btn");
 
-      newRecipe.appendChild(image);
       image.appendChild(img);
-      newRecipe.appendChild(title);
+      newRecipe.append(image, title);
       forTitle.appendChild(h3);
       title.append(forTitle, favIcon);
       list.appendChild(newRecipe);
-      newRecipe.addEventListener("click", (e) => showDetail(recipe.idMeal));
+
+      forTitle.addEventListener("click", () => showDetail(recipe.idMeal));
+      image.addEventListener("click", () => showDetail(recipe.idMeal));
+      favIcon.addEventListener("click", () => addToFavourites(recipe.idMeal));
     });
+  };
+
+  let addToFavourites = (id) => {
+    console.log(`add recipe with ID:${id}`);
+    let findFavRecipe = recipesList[0].find((recipe) => recipe.idMeal === id);
+    favoritesList.push(findFavRecipe);
+    console.log(favoritesList);
   };
 
   let showDetail = (id) => {
@@ -69,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showTitle(recipeDetail.strMeal);
     showPhoto(recipeDetail.strMealThumb);
     showContent(recipeDetail);
-    addBtn();
+    addCloseBtn();
   };
 
   let showPhoto = (photo) => {
@@ -168,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
     contentTxt.appendChild(content);
   };
 
-  let addBtn = () => {
+  let addCloseBtn = () => {
     let btn = document.createElement("button");
     btn.classList.add("close");
     btn.innerHTML = "Close";

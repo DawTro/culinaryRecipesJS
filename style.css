@@ -43,18 +43,45 @@ body {
 }
 .favourites {
   margin-bottom: 15px;
+  text-align: center;
 }
-.favourites .fav-btn {
+.favourites .fav-btn-header {
+  cursor: pointer;
   font-size: 30px;
   color: black;
 }
+.dropdown {
+  position: relative;
+}
+.dropdown-menu {
+  position: absolute;
+  left: -25px;
+  top: 50px;
+  background-color: #fff;
+  padding: 8px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+.dropdown > .fav-btn-header:focus + .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 .search {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   border: 1px solid black;
   border-radius: 20px;
-  padding: 10px 15px;
+  padding: 0 15px;
+}
+.search .bi {
+  padding: 10px;
 }
 .search input {
   padding-left: 5px;
@@ -62,7 +89,7 @@ body {
   border: none;
   outline: none;
   font-size: 16px;
-  text-align: center;
+  /* text-align: center; */
 }
 
 /* 
@@ -90,6 +117,15 @@ body {
 }
 .info p {
   padding-top: 20px;
+}
+.not-found {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  text-align: center;
+  font-size: 32px;
 }
 .recipes {
   display: flex;
@@ -268,12 +304,12 @@ body {
     cursor: pointer;
     border-bottom: none;
   }
-  .recipe:hover {
+  .recipe-title .title:hover {
     text-decoration: underline;
   }
   .recipe-img {
     width: auto;
-    max-width: 900px;
+    max-width: 800px;
     height: 250px;
     margin: 10px auto;
     background-position: center 50%;
@@ -284,6 +320,16 @@ body {
     align-items: center;
     justify-content: space-evenly;
     margin: 0;
+  }
+  .fav-btn {
+    display: none;
+    transition: transform 0.5s;
+  }
+  .fav-btn:hover {
+    transform: scale(1.5);
+  }
+  .recipe:hover .fav-btn {
+    display: block;
   }
   .title {
     text-align: center;

@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let addToFavourites = (id) => {
-    console.log(`add recipe with ID:${id}`);
+    console.log(`add to favorites recipe with ID:${id}`);
     let findFavRecipe = recipesList[0].find((recipe) => recipe.idMeal === id);
     favoritesList.push(findFavRecipe);
     console.log(favoritesList);
@@ -207,6 +207,21 @@ document.addEventListener("DOMContentLoaded", () => {
       mealName = e.target.value;
       console.log(mealName);
       mealList(mealName);
+    }
+  });
+  favorites.addEventListener("click", (e) => {
+    console.log("ulubione klikniete");
+    if (favorites) {
+      dropdown = e.target.closest(".dropdown");
+      dropdown.classList.toggle("active");
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".dropdown")) {
+      console.log("lista kliknieta");
+    } else if (!e.target.closest(".dropdown")) {
+      console.log("kliknieto poza dropdown, klasa active usunieta");
+      dropdown.classList.remove("active");
     }
   });
 });

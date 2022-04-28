@@ -52,11 +52,13 @@ body {
 }
 .dropdown {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .dropdown-menu {
   position: absolute;
-  left: -25px;
-  top: 50px;
+  top: 45px;
   background-color: #fff;
   padding: 8px;
   border-radius: 5px;
@@ -66,7 +68,7 @@ body {
   transform: translateY(-10px);
   transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
-.dropdown > .fav-btn-header:focus + .dropdown-menu {
+.dropdown.active > .fav-btn-header + .dropdown-menu {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
@@ -226,7 +228,6 @@ body {
   padding: 20px 10px;
 }
 .ingredient-list li {
-  list-style-type: none;
   text-align: left;
   padding-bottom: 15px;
 }

@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const recipeContent = document.querySelector(".recipe-content");
   const detail = document.querySelector(".container-recipe-content");
   const favorites = document.querySelector(".fav-btn-header");
+  const favList = document.querySelector(".fav-list");
+  const favInfo = document.querySelector(".favInfo");
 
   let recipesList = [];
   let favoritesList = [];
@@ -71,8 +73,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let addToFavourites = (id) => {
     console.log(`add to favorites recipe with ID:${id}`);
+    if (favInfo.style.display !== "none") {
+      favInfo.style.display = "none";
+    }
     let findFavRecipe = recipesList[0].find((recipe) => recipe.idMeal === id);
     favoritesList.push(findFavRecipe);
+
     console.log(favoritesList);
   };
 
@@ -202,6 +208,29 @@ document.addEventListener("DOMContentLoaded", () => {
     detail.innerHTML = "";
   };
 
+  let showFavList = () => {
+    console.log("favlist sie pokazuje");
+    console.log(favoritesList);
+    favList.innerHTML = "";
+    if (favoritesList !== []) {
+      favoritesList.map((fav) => {
+        let favLi = document.createElement("li");
+        favLi.id = fav.idMeal;
+        let favDiv = document.createElement("div");
+        favDiv.classList.add("container-li");
+        let favTitle = document.createElement("div");
+        favTitle.classList.add("container-li-title");
+        favTitle.innerHTML = fav.strMeal;
+        let deletebtn = document.createElement("div");
+        deletebtn.classList.add("container-li-delete");
+
+        favDiv.append(favTitle, deletebtn);
+        favLi.appendChild(favDiv);
+        favList.appendChild(favLi);
+      });
+    }
+  };
+
   input.addEventListener("keyup", (e) => {
     if (e.keyCode === 13 && input.value !== "") {
       mealName = e.target.value;
@@ -218,9 +247,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.addEventListener("click", (e) => {
     if (e.target.closest(".dropdown")) {
-      console.log("lista kliknieta");
+      showFavList();
+      // }
     } else if (!e.target.closest(".dropdown")) {
-      console.log("kliknieto poza dropdown, klasa active usunieta");
       dropdown.classList.remove("active");
     }
   });

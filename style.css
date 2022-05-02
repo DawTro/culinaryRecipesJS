@@ -57,10 +57,11 @@ body {
   justify-content: center;
 }
 .dropdown-menu {
+  width: max-content;
   position: absolute;
   top: 45px;
   background-color: #fff;
-  padding: 8px;
+  padding: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.2);
   opacity: 0;
@@ -72,6 +73,31 @@ body {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+.fav-list {
+  /* text-align: left; */
+}
+
+.fav-list li {
+  list-style-type: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid goldenrod;
+}
+
+.fav-list li:first-child {
+  padding-top: 0;
+}
+
+.fav-list li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.container-li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .search {

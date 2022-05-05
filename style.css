@@ -75,10 +75,6 @@ body {
   pointer-events: auto;
 }
 
-.fav-list {
-  /* text-align: left; */
-}
-
 .fav-list li {
   list-style-type: none;
   padding-top: 10px;

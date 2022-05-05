@@ -197,18 +197,22 @@ document.addEventListener("DOMContentLoaded", () => {
     detail.innerHTML = "";
   };
 
+  let favoriteInfo = () => {
+    favoritesList.length > 0
+      ? (favInfo.style.display = "none")
+      : (favInfo.style.display = "block");
+  };
+
   let addToFavourites = (id) => {
     console.log(`add to favorites recipe with ID:${id}`);
-    if (favInfo.style.display !== "none") {
-      favInfo.style.display = "none";
-    }
     let findFavRecipe = recipesList[0].find((recipe) => recipe.idMeal === id);
     if (favoritesList.includes(findFavRecipe)) {
       return console.log("juz dodane");
     } else {
       favoritesList.push(findFavRecipe);
     }
-
+    favoriteInfo();
+    showFavList();
     console.log(favoritesList);
   };
 
@@ -235,13 +239,18 @@ document.addEventListener("DOMContentLoaded", () => {
         favLi.appendChild(favDiv);
         favList.appendChild(favLi);
 
-        btnDel.addEventListener("click", () => deleteFav());
+        btnDel.addEventListener("click", () => deleteFav(fav.idMeal));
       });
     }
   };
 
   let deleteFav = (id) => {
     console.log(`kliknieto usun z ulubionych przepis o id ${id}`);
+    favoritesList = favoritesList.filter((favorite) => favorite.idMeal !== id);
+    favoriteInfo();
+    showFavList();
+
+    console.log(favoritesList);
   };
 
   input.addEventListener("keyup", (e) => {
@@ -253,10 +262,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   favorites.addEventListener("click", (e) => {
     console.log("ulubione klikniete");
+    dropdown = e.target.closest(".dropdown");
     if (favorites) {
-      dropdown = e.target.closest(".dropdown");
       dropdown.classList.toggle("active");
       showFavList();
+    } else if (!dropdown) {
+      dropdown.classList.remove("active");
     }
   });
   // document.addEventListener("click", (e) => {

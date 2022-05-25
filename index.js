@@ -172,9 +172,18 @@ document.addEventListener("DOMContentLoaded", () => {
     let instructionTitle = document.createElement("h3");
     instructionTitle.classList.add("instruction-title");
     instructionTitle.innerHTML = "Preparation:";
-    let recipeTxt = document.createElement("p");
+    let recipeTxt = document.createElement("ol");
     recipeTxt.classList.add("instruction-detail");
-    recipeTxt.innerHTML = instruction;
+    let inst = instruction;
+    let arr = inst.split(/\r?\n|\r/);
+    arr.map((el) => {
+      if (el !== "") {
+        let newLi = document.createElement("li");
+        newLi.innerText = el;
+
+        recipeTxt.appendChild(newLi);
+      }
+    });
 
     content.appendChild(instructionTitle);
     content.appendChild(recipeTxt);
@@ -207,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(`add to favorites recipe with ID:${id}`);
     let findFavRecipe = recipesList[0].find((recipe) => recipe.idMeal === id);
     if (favoritesList.includes(findFavRecipe)) {
-      return console.log("juz dodane");
+      return alert("This recipe already exists in favorites.");
     } else {
       favoritesList.push(findFavRecipe);
     }
@@ -239,9 +248,24 @@ document.addEventListener("DOMContentLoaded", () => {
         favLi.appendChild(favDiv);
         favList.appendChild(favLi);
 
+        favTitle.addEventListener("click", () => favDetail(fav));
         btnDel.addEventListener("click", () => deleteFav(fav.idMeal));
       });
     }
+  };
+
+  let favDetail = (fav) => {
+    console.log(fav);
+
+    detail.innerHTML = "";
+
+    list.style.display = "none";
+    recipeContent.style.display = "flex";
+
+    showTitle(fav.strMeal);
+    showPhoto(fav.strMealThumb);
+    showContent(fav);
+    addCloseBtn();
   };
 
   let deleteFav = (id) => {
@@ -255,11 +279,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   input.addEventListener("keyup", (e) => {
     if (e.keyCode === 13 && input.value !== "") {
+      detail.innerHTML = "";
+      list.style.display = "flex";
+      recipeContent.style.display = "none";
       mealName = e.target.value;
       console.log(mealName);
       mealList(mealName);
     }
   });
+
   favorites.addEventListener("click", (e) => {
     console.log("ulubione klikniete");
     dropdown = e.target.closest(".dropdown");
@@ -270,12 +298,13 @@ document.addEventListener("DOMContentLoaded", () => {
       dropdown.classList.remove("active");
     }
   });
+
   // document.addEventListener("click", (e) => {
   //   if (e.target.closest(".dropdown")) {
   //     showFavList();
+  //     // }
+  //   } else if (!e.target.closest(".dropdown")) {
+  //     dropdown.classList.remove("active");
   //   }
-  // } else if (!e.target.closest(".dropdown")) {
-  //   dropdown.classList.remove("active");
-  // }
   // });
 });

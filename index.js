@@ -19,11 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${mealName}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data.meals);
         if (data.meals === null) {
-          info.style.display = "none";
+          list.innerHTML = "";
+          list.style.display = "none";
           notFound.style.display = "flex";
           input.value = "";
         } else if (data) {
+          notFound.style.display = "none";
           let recipes = data.meals;
           if (recipesList === []) {
             recipesList.push(recipes);
@@ -72,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let showDetail = (id) => {
+    window.scrollTo(0, 0);
     console.log("show recipe id: ", id);
     let recipeDetail = recipesList[0].find((recipe) => recipe.idMeal === id);
     console.log(recipeDetail);
@@ -222,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     favoriteInfo();
     showFavList();
-    console.log(favoritesList);
+    compareLists(id);
   };
 
   let showFavList = () => {
@@ -231,7 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (favoritesList !== []) {
       favoritesList.map((fav) => {
         let favLi = document.createElement("li");
-        favLi.id = fav.idMeal;
+        // favLi.id = fav.idMeal;
+        // favLi.classList.add(`${fav.strMeal}`);
         let favDiv = document.createElement("div");
         favDiv.classList.add("container-li");
         let favTitle = document.createElement("div");
@@ -254,8 +259,39 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  let compareLists = (id) => {
+    console.log(`porównuje listy id: ${id}`);
+    let elmt = document.getElementById(`${id}`);
+    let icon = elmt.querySelector(".recipe-title");
+    let favIcon = icon.querySelector(".bi-heart");
+    console.log(favIcon);
+
+    let recipes = recipesList[0];
+    let favorites = favoritesList;
+
+    // let findElement = (recipes, favorites) => {
+    //   for (let i = 0; i < recipes.length; i++) {
+    //     for (let j = 0; j < favorites.length; j++) {
+    //       if (recipes[i] === favorites[j]) {
+    //         favIcon.classList.replace("bi-heart", "bi-heart-fill");
+    //       } else {
+    //         favIcon.classList.replace("bi-heart-fill", "bi-heart");
+    //       }
+    //     }
+    //   }
+    // };
+
+    let recipe = Number(recipes.find((rec) => rec.idMeal === id).idMeal);
+    let favorite = Number(favorites.find((fav) => fav.idMeal === id).idMeal);
+
+    recipe === favorite
+      ? favIcon.classList.replace("bi-heart", "bi-heart-fill")
+      : console.log("zmieniamy ikone na pusta");
+  };
+
   let favDetail = (fav) => {
     console.log(fav);
+    window.scrollTo(0, 0);
 
     detail.innerHTML = "";
 
@@ -273,12 +309,15 @@ document.addEventListener("DOMContentLoaded", () => {
     favoritesList = favoritesList.filter((favorite) => favorite.idMeal !== id);
     favoriteInfo();
     showFavList();
+    // compareLists(id);
 
     console.log(favoritesList);
   };
 
   input.addEventListener("keyup", (e) => {
     if (e.keyCode === 13 && input.value !== "") {
+      notFound.style.display = "none";
+      info.style.display = "none";
       detail.innerHTML = "";
       list.style.display = "flex";
       recipeContent.style.display = "none";
@@ -298,13 +337,9 @@ document.addEventListener("DOMContentLoaded", () => {
       dropdown.classList.remove("active");
     }
   });
-
-  // document.addEventListener("click", (e) => {
-  //   if (e.target.closest(".dropdown")) {
-  //     showFavList();
-  //     // }
-  //   } else if (!e.target.closest(".dropdown")) {
-  //     dropdown.classList.remove("active");
-  //   }
-  // });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".dropdown", ".active")) {
+      dropdown.classList.remove("active");
+    }
+  });
 });

@@ -269,24 +269,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let recipes = recipesList[0];
     let favorites = favoritesList;
 
-    // let findElement = (recipes, favorites) => {
-    //   for (let i = 0; i < recipes.length; i++) {
-    //     for (let j = 0; j < favorites.length; j++) {
-    //       if (recipes[i] === favorites[j]) {
-    //         favIcon.classList.replace("bi-heart", "bi-heart-fill");
-    //       } else {
-    //         favIcon.classList.replace("bi-heart-fill", "bi-heart");
-    //       }
-    //     }
-    //   }
-    // };
-
     let recipe = Number(recipes.find((rec) => rec.idMeal === id).idMeal);
     let favorite = Number(favorites.find((fav) => fav.idMeal === id).idMeal);
 
     recipe === favorite
       ? favIcon.classList.replace("bi-heart", "bi-heart-fill")
-      : console.log("zmieniamy ikone na pusta");
+      : "";
   };
 
   let favDetail = (fav) => {
@@ -307,11 +295,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let deleteFav = (id) => {
     console.log(`kliknieto usun z ulubionych przepis o id ${id}`);
     favoritesList = favoritesList.filter((favorite) => favorite.idMeal !== id);
+
+    let elmt = document.getElementById(`${id}`);
+    let icon = elmt.querySelector(".recipe-title");
+    let favIcon = icon.querySelector(".bi-heart-fill");
+    console.log(favIcon);
+    favIcon.classList.replace("bi-heart-fill", "bi-heart");
+
     favoriteInfo();
     showFavList();
-    // compareLists(id);
-
-    console.log(favoritesList);
   };
 
   input.addEventListener("keyup", (e) => {

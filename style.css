@@ -35,7 +35,7 @@ body::-webkit-scrollbar-thumb {
   padding: 20px;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #fff;
   border-bottom: 1px solid goldenrod;
 }
@@ -96,7 +96,10 @@ body::-webkit-scrollbar-thumb {
   border-radius: 20px;
   border: solid goldenrod;
 }
-
+.fav-btn {
+  margin-left: 5px;
+  color: goldenrod;
+}
 .fav-list li {
   list-style-type: none;
   padding: 10px 0;
@@ -205,9 +208,9 @@ body::-webkit-scrollbar-thumb {
   overflow: hidden;
 }
 .recipe-title {
-  width: 100%;
+  width: 90%;
   display: flex;
-  /* flex-wrap: wrap; */
+  margin: 0 auto;
   align-items: center;
   justify-content: space-evenly;
   padding: 15px 10px;
@@ -270,11 +273,8 @@ body::-webkit-scrollbar-thumb {
 }
 .close:hover {
   cursor: pointer;
-  /* background-color: rgb(163, 161, 161); */
-  /* background-color: rgb(255, 236, 130); */
   background-color: rgba(0, 0, 0, 0.774);
   color: goldenrod;
-  /* color: #f5d000; */
   border-color: black;
 }
 .image img,
@@ -322,17 +322,19 @@ body::-webkit-scrollbar-thumb {
   .header {
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     padding: 20px 50px;
   }
   .header-title {
     margin: 0;
   }
   .favourites {
+    margin-left: 25px;
     margin-bottom: 0;
   }
   .main {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     width: 80%;
     margin: 0 auto;
